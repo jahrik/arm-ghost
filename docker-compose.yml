@@ -1,0 +1,33 @@
+version: '3.5'
+
+services:
+
+  ghost:
+    image: jahrik/arm-ghost:aarch64
+    environment:
+      url: 'http://homelab.business'
+    ports:
+      - 8083:2368
+    networks:
+      - traefik
+    volumes:
+      - /mnt/g1/ghost/content:/var/lib/ghost/content
+    deploy:
+      # replicas: 1
+      labels:
+        traefik.enable: 1
+        traefik.port: 2368
+        traefik.backend: ghost
+        traefik.docker.network: traefik
+        traefik.frontend.rule: Host:homelab.business
+        # traefik.backend.loadbalancer.swarm: 1
+        # traefik.backend.loadbalancer.method: drr
+      placement:
+        constraints:
+          - node.labels.arch == aarch64
+
+networks:
+  traefik:
+    name: traefik
+    driver: overlay
+    external: true
