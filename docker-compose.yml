@@ -48,7 +48,7 @@ services:
         # traefik.backend.loadbalancer.method: drr
       placement:
         constraints:
-          - node.labels.arch == armv7l
+          - node.labels.arch == arm32v7
 
 
 networks:
