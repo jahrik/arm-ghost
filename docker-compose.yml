@@ -27,7 +27,7 @@ services:
           - node.labels.arch == aarch64
 
   jahrik:
-    image: jahrik/arm-ghost:aarch64
+    image: jahrik/arm-ghost:armv7l
     environment:
       url: 'http://jahrik.me'
     ports:
@@ -48,7 +48,7 @@ services:
         # traefik.backend.loadbalancer.method: drr
       placement:
         constraints:
-          - node.labels.arch == aarch64
+          - node.labels.arch == armv7l
 
 
 networks:
