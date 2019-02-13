@@ -3,6 +3,8 @@
 ghost_user_pass = 'ghost-user-pass'
 ghost_db_host = 'ghost-db-host'
 ghost_database = 'ghost-database'
+email_user_pass = 'email-user-pass'
+email_service = 'email-service'
 
 // labels for Jenkins node types we will build on
 def labels = ['armv7l', 'aarch64']
@@ -54,6 +56,11 @@ node('master') {
         usernamePassword(credentialsId: ghost_user_pass,
           usernameVariable: 'DB_USER',
           passwordVariable: 'DB_PASS'),
+        usernamePassword(credentialsId: email_user_pass,
+          usernameVariable: 'MAIL_USER',
+          passwordVariable: 'MAIL_PASS'),
+        string(credentialsId: email_service,
+          variable: 'MAIL_SRVC'),
         string(credentialsId: ghost_db_host,
           variable: 'DB_HOST'),
         string(credentialsId: ghost_database,
@@ -62,6 +69,9 @@ node('master') {
         echo "DB_PASS = ${env.DB_PASS}"
         echo "DB_HOST = ${env.DB_HOST}"
         echo "DATABASE = ${env.DATABASE}"
+        echo "MAIL_USER = ${env.MAIL_USER}"
+        echo "MAIL_PASS = ${env.MAIL_PASS}"
+        echo "MAIL_SRVC = ${env.MAIL_SRVC}"
         sh "make deploy"
       }
     }

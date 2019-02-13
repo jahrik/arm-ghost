@@ -17,6 +17,10 @@ services:
       database__connection__user: "${DB_USER}"
       database__connection__password: "${DB_PASS}"
       database__connection__database: "${DATABASE}"
+      mail_transport: "SMTP"
+      mail_options_service: "${MAIL_SRVC}"
+      mail_options_auth_user: "${MAIL_USER}"
+      mail_options_auth_pass: "${MAIL_PASS}"
     deploy:
       # replicas: 1
       labels:
