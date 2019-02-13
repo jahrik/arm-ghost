@@ -10,6 +10,7 @@ services:
       - traefik
     volumes:
       - /mnt/g1/ghost/content:/var/lib/ghost/content
+      - /mnt/g1/ghost/config.production.json:/var/lib/ghost/config.production.json
     environment:
       url: 'http://homelab.business'
       database__client: mysql
