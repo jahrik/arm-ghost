@@ -1,5 +1,9 @@
 #!/usr/bin/env groovy
 
+ghost_user_pass = 'ghost-user-pass'
+ghost_db_host = 'ghost-db-host'
+ghost_database = 'ghost-database'
+
 // labels for Jenkins node types we will build on
 def labels = ['armv7l', 'aarch64']
 def builders = [:]
@@ -29,6 +33,7 @@ for (x in labels) {
 
       } finally {
         // Any cleanup operations needed, whether we hit an error or not
+        deleteDir()
       }
     }
   }
@@ -40,14 +45,28 @@ node('master') {
 
   try {
     stage('scm') {
-      // Clean workspace
       deleteDir()
-      // Checkout the app at the given commit sha from the webhook
       checkout scm
     }
 
+    stage('set envars') {
+      withCredentials([usernamePassword(credentialsId: ghost_user_pass,
+        usernameVariable: 'DB_USER',
+        passwordVariable: 'DB_PASS')]) {
+        DB_USER = env.DB_USER
+        DB_PASS = env.DB_PASS
+      }
+      withCredentials([string(credentialsId: ghost_db_host,
+        variable: 'DB_HOST')]) {
+          DB_HOST = env.DB_HOST
+      }
+      withCredentials([string(credentialsId: ghost_database,
+        variable: 'DATABASE')]) {
+          DATABASE = env.DATABASE
+      }
+    }
+
     stage('deploy') {
-      // Docker deploy
       sh "make deploy"
     }
 
@@ -56,8 +75,6 @@ node('master') {
 
   } finally {
     // Any cleanup operations needed, whether we hit an error or not
-
+    deleteDir()
   }
 }
-
-          

@@ -4,14 +4,19 @@ services:
 
   ghost:
     image: jahrik/arm-ghost:aarch64
-    environment:
-      url: 'http://homelab.business'
     ports:
       - 8083:2368
     networks:
       - traefik
     volumes:
       - /mnt/g1/ghost/content:/var/lib/ghost/content
+    environment:
+      url: 'http://homelab.business'
+      database__client: mysql
+      database__connection__host: "${DB_HOST}"
+      database__connection__user: "${DB_USER}"
+      database__connection__password: "${DB_PASS}"
+      database__connection__database: "${DATABASE}"
     deploy:
       # replicas: 1
       labels:
@@ -49,7 +54,6 @@ services:
       placement:
         constraints:
           - node.labels.arch == arm32v7
-
 
 networks:
   traefik:
