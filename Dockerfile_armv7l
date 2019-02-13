@@ -1,1 +1,1 @@
-FROM arm32v7/ghost:2.6.0
+FROM arm32v7/ghost:latest

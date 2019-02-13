@@ -1,1 +1,1 @@
-FROM arm64v8/ghost:2.11.1
+FROM arm64v8/ghost:latest
