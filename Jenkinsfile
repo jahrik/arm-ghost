@@ -67,6 +67,10 @@ node('master') {
     }
 
     stage('deploy') {
+      echo "DB_USER = ${env.DB_USER}"
+      echo "DB_PASS = ${env.DB_PASS}"
+      echo "DB_HOST = ${env.DB_HOST}"
+      echo "DATABASE = ${env.DATABASE}"
       sh "make deploy"
     }
 
