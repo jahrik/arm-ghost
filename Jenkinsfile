@@ -49,29 +49,21 @@ node('master') {
       checkout scm
     }
 
-    stage('set envars') {
-      withCredentials([usernamePassword(credentialsId: ghost_user_pass,
-        usernameVariable: 'DB_USER',
-        passwordVariable: 'DB_PASS')]) {
-        DB_USER = env.DB_USER
-        DB_PASS = env.DB_PASS
-      }
-      withCredentials([string(credentialsId: ghost_db_host,
-        variable: 'DB_HOST')]) {
-          DB_HOST = env.DB_HOST
-      }
-      withCredentials([string(credentialsId: ghost_database,
-        variable: 'DATABASE')]) {
-          DATABASE = env.DATABASE
-      }
-    }
-
     stage('deploy') {
-      echo "DB_USER = ${env.DB_USER}"
-      echo "DB_PASS = ${env.DB_PASS}"
-      echo "DB_HOST = ${env.DB_HOST}"
-      echo "DATABASE = ${env.DATABASE}"
-      sh "make deploy"
+      withCredentials([
+        usernamePassword(credentialsId: ghost_user_pass,
+          usernameVariable: 'DB_USER',
+          passwordVariable: 'DB_PASS'),
+        string(credentialsId: ghost_db_host,
+          variable: 'DB_HOST'),
+        string(credentialsId: ghost_database,
+          variable: 'DATABASE'),]) {
+        echo "DB_USER = ${env.DB_USER}"
+        echo "DB_PASS = ${env.DB_PASS}"
+        echo "DB_HOST = ${env.DB_HOST}"
+        echo "DATABASE = ${env.DATABASE}"
+        sh "make deploy"
+      }
     }
 
   } catch(error) {
