@@ -65,13 +65,6 @@ node('master') {
           variable: 'DB_HOST'),
         string(credentialsId: ghost_database,
           variable: 'DATABASE'),]) {
-        echo "DB_USER = ${env.DB_USER}"
-        echo "DB_PASS = ${env.DB_PASS}"
-        echo "DB_HOST = ${env.DB_HOST}"
-        echo "DATABASE = ${env.DATABASE}"
-        echo "MAIL_USER = ${env.MAIL_USER}"
-        echo "MAIL_PASS = ${env.MAIL_PASS}"
-        echo "MAIL_SRVC = ${env.MAIL_SRVC}"
         sh "make deploy"
       }
     }
