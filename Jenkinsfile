@@ -43,7 +43,7 @@ for (x in labels) {
 
 parallel builders
 
-node('master') {
+node('manager') {
 
   try {
     stage('scm') {
