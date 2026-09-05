@@ -14,7 +14,7 @@ docker run -d -p 2368:2368 -e url=http://localhost:2368 jahrik/arm-ghost:latest
 
 ```bash
 docker network create -d overlay traefik   # once
-make deploy                                # stack: ghost (two sites behind traefik)
+just deploy                                # stack: ghost (two sites behind traefik)
 ```
 
 DB and mail settings come from `DB_HOST`/`DB_USER`/`DB_PASS`/`DATABASE` and `MAIL_*` env vars.
@@ -22,8 +22,8 @@ DB and mail settings come from `DB_HOST`/`DB_USER`/`DB_PASS`/`DATABASE` and `MAI
 ## Build
 
 ```bash
-make build
-make push
+just build
+just push
 ```
 
 CI: PR builds + HTTP smoke test; merge to main pushes multi-arch (amd64/arm64/armv7) to Docker Hub.

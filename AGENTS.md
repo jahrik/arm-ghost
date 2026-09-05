@@ -5,9 +5,9 @@ Multi-arch Ghost blog image: pinned `FROM` over official `ghost`, deployed as th
 ## Commands
 
 ```bash
-make build                                  # build jahrik/arm-ghost:latest
+just build                                  # build jahrik/arm-ghost:latest
 docker run -d -p 2368:2368 -e url=http://localhost:2368 jahrik/arm-ghost:latest
-make deploy                                 # swarm stack deploy (stack: ghost)
+just deploy                                 # swarm stack deploy (stack: ghost)
 ```
 
 ## CI
